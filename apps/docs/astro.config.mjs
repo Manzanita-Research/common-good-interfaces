@@ -1,7 +1,9 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 
-const counterOrigin = process.env.PUBLIC_COMMON_GOOD_COUNTER_ORIGIN;
+const defaultCounterOrigin = "https://common-good-interfaces-counter.manzanita.workers.dev";
+const isDevServer = process.env.npm_lifecycle_event === "dev";
+const counterOrigin = process.env.PUBLIC_COMMON_GOOD_COUNTER_ORIGIN ?? (isDevServer ? undefined : defaultCounterOrigin);
 
 export default defineConfig({
   site: "https://common-good-interfaces-docs.manzanita.workers.dev",

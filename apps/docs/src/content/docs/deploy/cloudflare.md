@@ -42,13 +42,13 @@ Wrangler reads `apps/docs/wrangler.jsonc` and serves the static assets from `./d
 pnpm deploy:docs
 ```
 
-Set this build environment variable when the docs should point at a separately deployed counter Worker:
+Docs builds point at the production counter Worker by default:
 
 ```txt
-PUBLIC_COMMON_GOOD_COUNTER_ORIGIN=https://common-good-interfaces-counter.manzanita.workers.dev
+https://common-good-interfaces-counter.manzanita.workers.dev
 ```
 
-Local docs development still falls back to `http://localhost:8787`, and `?counter_origin=` can override the target for one-off previews.
+Set `PUBLIC_COMMON_GOOD_COUNTER_ORIGIN` to override that target for another deployment. Local docs development still falls back to `http://localhost:8787`, and `?counter_origin=` can override the target for one-off previews.
 
 The docs app uses this Cloudflare Workers assets configuration:
 
