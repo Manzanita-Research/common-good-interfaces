@@ -1,6 +1,8 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 
+const counterOrigin = process.env.PUBLIC_COMMON_GOOD_COUNTER_ORIGIN;
+
 export default defineConfig({
   site: "https://common-good-interfaces-docs.manzanita.workers.dev",
   integrations: [
@@ -29,6 +31,15 @@ export default defineConfig({
             href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,600,100,1&display=swap",
           },
         },
+        ...(counterOrigin
+          ? [
+              {
+                tag: "script",
+                attrs: {},
+                content: `window.COMMON_GOOD_COUNTER_ORIGIN = ${JSON.stringify(counterOrigin)};`,
+              },
+            ]
+          : []),
         {
           tag: "script",
           attrs: { type: "module", src: "/common-good-counter.js" },

@@ -1,5 +1,3 @@
-const COUNTER_DEPLOYMENT_ORIGIN = "https://common-good-interfaces-counter.manzanita.workers.dev";
-const DOCS_DEPLOYMENT_HOST = "common-good-interfaces-docs.manzanita.workers.dev";
 const widgets = document.querySelectorAll("[data-counter-widget]");
 
 for (const widget of widgets) {
@@ -141,12 +139,12 @@ function resolveCounterOrigin(widget) {
     return queryOrigin;
   }
 
-  if (["localhost", "127.0.0.1"].includes(window.location.hostname)) {
-    return "http://localhost:8787";
+  if (window.COMMON_GOOD_COUNTER_ORIGIN) {
+    return window.COMMON_GOOD_COUNTER_ORIGIN;
   }
 
-  if (window.location.hostname === DOCS_DEPLOYMENT_HOST) {
-    return COUNTER_DEPLOYMENT_ORIGIN;
+  if (["localhost", "127.0.0.1"].includes(window.location.hostname)) {
+    return "http://localhost:8787";
   }
 
   return window.location.origin;
