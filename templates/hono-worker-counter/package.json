@@ -1,0 +1,28 @@
+{
+  "name": "@common-good-interfaces/hono-worker-counter",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "WRANGLER_LOG_PATH=.wrangler/logs vitest run",
+    "dev": "WRANGLER_LOG_PATH=.wrangler/logs wrangler dev",
+    "deploy": "WRANGLER_LOG_PATH=.wrangler/logs wrangler deploy",
+    "dry-run": "WRANGLER_LOG_PATH=.wrangler/logs wrangler deploy --dry-run",
+    "types": "WRANGLER_LOG_PATH=.wrangler/logs wrangler types"
+  },
+  "dependencies": {
+    "@common-good-interfaces/core": "workspace:*",
+    "@common-good-interfaces/jsonrender-ui": "workspace:*",
+    "hono": "^4.10.6"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.15.1",
+    "@types/node": "^22.19.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.5",
+    "wrangler": "^4.47.0"
+  }
+}

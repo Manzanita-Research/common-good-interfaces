@@ -1,0 +1,23 @@
+{
+  "name": "common-good-interfaces",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A template-first monorepo for tiny executable web capabilities for humans and agents.",
+  "type": "module",
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "build": "pnpm -r --if-present build",
+    "test": "pnpm -r --if-present test",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "dev:counter": "pnpm --filter @common-good-interfaces/hono-worker-counter run dev",
+    "deploy:counter": "pnpm --filter @common-good-interfaces/hono-worker-counter run deploy",
+    "dry-run:counter": "pnpm --filter @common-good-interfaces/hono-worker-counter run dry-run"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.15.1",
+    "@types/node": "^22.19.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.5",
+    "wrangler": "^4.47.0"
+  }
+}
