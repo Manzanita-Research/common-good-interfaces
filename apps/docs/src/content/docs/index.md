@@ -33,10 +33,10 @@ template: splash
   </section>
 
   <section class="cgi-section" aria-labelledby="proof-title">
-    <h2 id="proof-title">V0 is small on purpose.</h2>
+    <h2 id="proof-title">Start with one executable URL.</h2>
     <p>
-      The first starter proves the primitive instead of pretending to be a platform.
-      One counter binlet is enough to show the route, state, UI, live feed, and discovery shape.
+      This repo gives you the boring parts first: path helpers, manifests, a JSON view spec,
+      and a counter that actually remembers things.
     </p>
     <div class="cgi-proof-grid">
       <div class="cgi-proof">
