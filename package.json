@@ -9,6 +9,9 @@
     "build": "pnpm -r --if-present build",
     "test": "pnpm -r --if-present test",
     "typecheck": "pnpm -r --if-present typecheck",
+    "dev:docs": "pnpm --filter @common-good-interfaces/docs run dev",
+    "build:docs": "pnpm --filter @common-good-interfaces/docs run build",
+    "deploy:docs": "pnpm --filter @common-good-interfaces/docs run deploy",
     "dev:counter": "pnpm --filter @common-good-interfaces/hono-worker-counter run dev",
     "deploy:counter": "pnpm --filter @common-good-interfaces/hono-worker-counter run deploy",
     "dry-run:counter": "pnpm --filter @common-good-interfaces/hono-worker-counter run dry-run"
