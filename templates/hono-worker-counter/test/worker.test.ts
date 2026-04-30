@@ -58,6 +58,31 @@ describe("Common Good Interface starter", () => {
     expect(secondBody.count).toBe(firstBody.count + 1);
   });
 
+  it("allows cross-origin reads for embeddable counter data", async () => {
+    const response = await SELF.fetch("https://example.com/common-good/counter.json", {
+      headers: {
+        Origin: "https://docs.example"
+      }
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
+    expect(response.headers.get("Access-Control-Allow-Methods")).toContain("GET");
+  });
+
+  it("answers CORS preflight for embeddable counter reads", async () => {
+    const response = await SELF.fetch("https://example.com/common-good/counter.json", {
+      method: "OPTIONS",
+      headers: {
+        Origin: "https://docs.example",
+        "Access-Control-Request-Method": "GET"
+      }
+    });
+
+    expect(response.status).toBe(204);
+    expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
+  });
+
   it("rejects live feed requests without a WebSocket upgrade", async () => {
     const response = await SELF.fetch("https://example.com/common-good/counter/live");
     const body = await response.json<{ error: string }>();

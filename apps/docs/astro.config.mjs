@@ -29,6 +29,10 @@ export default defineConfig({
             href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,600,100,1&display=swap",
           },
         },
+        {
+          tag: "script",
+          attrs: { type: "module", src: "/common-good-counter.js" },
+        },
       ],
       social: [],
       sidebar: [

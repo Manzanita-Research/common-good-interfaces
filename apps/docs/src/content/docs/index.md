@@ -18,17 +18,23 @@ template: splash
         <a class="cgi-button secondary" href="./concepts/binlets/">Understand binlets</a>
       </div>
     </div>
-    <div class="cgi-terminal" aria-label="V0 route surface">
-      <div class="cgi-terminal-head">
+    <div
+      class="cgi-counter"
+      data-counter-widget
+      data-counter-path="/common-good/counter"
+      data-counter-json="/common-good/counter.json"
+      aria-label="Live counter binlet preview"
+    >
+      <div class="cgi-counter-head">
         <span class="cgi-dots" aria-hidden="true"><span></span><span></span><span></span></span>
-        <span>V0 route surface</span>
+        <span data-counter-status>Counter Worker pending</span>
       </div>
-      <div class="cgi-route-stack">
-        <div class="cgi-route"><span class="cgi-method">GET</span><span>/common-good/counter</span></div>
-        <div class="cgi-route"><span class="cgi-method">GET</span><span>/common-good/counter.json</span></div>
-        <div class="cgi-route"><span class="cgi-method">GET</span><span>/common-good/counter.manifest.json</span></div>
-        <div class="cgi-route"><span class="cgi-method">GET</span><span>/common-good/counter/live</span></div>
+      <div class="cgi-counter-screen">
+        <span class="cgi-counter-label">VISITORS</span>
+        <span class="cgi-counter-digits" data-counter-count aria-live="polite">------</span>
+        <span class="cgi-counter-note">real <code>/common-good/counter.json</code> state</span>
       </div>
+      <a class="cgi-counter-link" data-counter-link href="/common-good/counter">Open the binlet</a>
     </div>
   </section>
 

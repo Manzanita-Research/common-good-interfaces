@@ -29,6 +29,12 @@ type HonoEnv = {
   Bindings: AppBindings;
 };
 
+const EMBEDDABLE_READ_HEADERS = {
+  "Access-Control-Allow-Headers": "Accept, Content-Type",
+  "Access-Control-Allow-Methods": "GET, OPTIONS",
+  "Access-Control-Allow-Origin": "*"
+} as const;
+
 interface WebSocketAttachment {
   clientId: string;
   joinedAt: number;
@@ -104,6 +110,8 @@ export class CounterObject extends DurableObject<AppBindings> {
 export function createApp(): Hono<HonoEnv> {
   const app = new Hono<HonoEnv>();
 
+  app.options("*", () => new Response(null, { status: 204, headers: EMBEDDABLE_READ_HEADERS }));
+
   app.get(COMMON_GOOD_WELL_KNOWN, (c) => {
     const origin = requestOrigin(c.req.raw);
     const manifest = createCommonGoodManifest({
@@ -113,13 +121,13 @@ export function createApp(): Hono<HonoEnv> {
       binlets: [createCounterManifest(origin)]
     });
 
-    return c.json(manifest);
+    return corsJson(manifest);
   });
 
   app.get(AGENT_AUTH_WELL_KNOWN, (c) => {
     const origin = requestOrigin(c.req.raw);
 
-    return c.json(
+    return corsJson(
       createAgentAuthConfigurationStub({
         origin,
         providerName: "common_good_interfaces",
@@ -151,19 +159,19 @@ export function createApp(): Hono<HonoEnv> {
 
   app.get(binletJsonPath(COUNTER_BINLET_ID), async (c) => {
     const state = await getCounter(c.env).getState();
-    return c.json(state);
+    return corsJson(state);
   });
 
   app.get(binletManifestPath(COUNTER_BINLET_ID), (c) => {
     const origin = requestOrigin(c.req.raw);
-    return c.json(createCounterManifest(origin));
+    return corsJson(createCounterManifest(origin));
   });
 
-  app.get(binletViewPath(COUNTER_BINLET_ID), (c) => c.json(createCounterViewSpec()));
+  app.get(binletViewPath(COUNTER_BINLET_ID), () => corsJson(createCounterViewSpec()));
 
   app.get(binletLivePath(COUNTER_BINLET_ID), async (c) => {
     if (!isWebSocketUpgrade(c.req.raw)) {
-      return c.json({ error: "Expected WebSocket upgrade." }, 400);
+      return corsJson({ error: "Expected WebSocket upgrade." }, { status: 400 });
     }
 
     return getCounter(c.env).fetch(c.req.raw);
@@ -184,6 +192,16 @@ function getCounter(env: AppBindings): DurableObjectStub<CounterObject> {
 
 function requestOrigin(request: Request): string {
   return new URL(request.url).origin;
+}
+
+function corsJson(data: unknown, init: ResponseInit = {}): Response {
+  const headers = new Headers(init.headers);
+
+  for (const [key, value] of Object.entries(EMBEDDABLE_READ_HEADERS)) {
+    headers.set(key, value);
+  }
+
+  return Response.json(data, { ...init, headers });
 }
 
 function agentAuthNotImplemented(request: Request): Response {
