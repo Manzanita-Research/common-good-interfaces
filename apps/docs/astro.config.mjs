@@ -8,23 +8,52 @@ export default defineConfig({
       title: "Common Good Interfaces",
       description:
         "Documentation for tiny executable web capabilities for humans and agents.",
+      customCss: ["./src/styles/common-good.css"],
+      head: [
+        {
+          tag: "link",
+          attrs: { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        },
+        {
+          tag: "link",
+          attrs: {
+            rel: "preconnect",
+            href: "https://fonts.gstatic.com",
+            crossorigin: "",
+          },
+        },
+        {
+          tag: "link",
+          attrs: {
+            rel: "stylesheet",
+            href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,600,100,1&display=swap",
+          },
+        },
+      ],
       social: [],
       sidebar: [
         {
           label: "Start Here",
-          items: ["index", "concepts/binlets", "guides/local-preview"],
+          items: [
+            { slug: "index", label: "Start" },
+            { slug: "concepts/binlets", label: "Binlets" },
+            { slug: "guides/local-preview", label: "Local Preview" },
+          ],
         },
         {
           label: "Examples",
-          items: ["examples/counter"],
+          items: [{ slug: "examples/counter", label: "Counter Binlet" }],
         },
         {
           label: "Deploy",
-          items: ["deploy/cloudflare"],
+          items: [{ slug: "deploy/cloudflare", label: "Cloudflare" }],
         },
         {
           label: "Reference",
-          items: ["reference/routes", "reference/agentauth-compatibility"],
+          items: [
+            { slug: "reference/routes", label: "Routes" },
+            { slug: "reference/agentauth-compatibility", label: "AgentAuth Compatibility" },
+          ],
         },
       ],
     }),
