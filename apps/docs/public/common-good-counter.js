@@ -13,12 +13,23 @@ async function hydrateCounterWidget(widget) {
   const origin = resolveCounterOrigin(widget);
   const jsonPath = widget.dataset.counterJson || "/common-good/counter.json";
   const pagePath = widget.dataset.counterPath || "/common-good/counter";
+  const livePath = widget.dataset.counterLive || "/common-good/counter/live";
   const jsonUrl = new URL(jsonPath, origin);
   const pageUrl = new URL(pagePath, origin);
+  const liveUrl = toWebSocketUrl(new URL(livePath, origin));
+  const originLabel = shortOrigin(origin);
 
   if (linkEl) {
     linkEl.href = pageUrl.toString();
   }
+
+  connectCounterLive({
+    countEl,
+    liveUrl,
+    originLabel,
+    statusEl,
+    widget
+  });
 
   try {
     setStatus(statusEl, "Counting visit");
@@ -40,13 +51,12 @@ async function hydrateCounterWidget(widget) {
       throw new Error("Counter response did not include a numeric count");
     }
 
-    if (countEl) {
-      countEl.textContent = formatCounter(count);
-      countEl.setAttribute("aria-label", `${count} recorded counter visits`);
-    }
+    renderCount(countEl, count);
 
-    setStatus(statusEl, shortOrigin(origin));
-    widget.dataset.counterState = "ready";
+    if (widget.dataset.counterState !== "live") {
+      setStatus(statusEl, `${originLabel} · polling`);
+      widget.dataset.counterState = "ready";
+    }
   } catch {
     if (countEl) {
       countEl.textContent = "000000";
@@ -68,6 +78,54 @@ function countCounterVisit(pageUrl) {
     credentials: "omit",
     mode: "no-cors"
   });
+}
+
+function connectCounterLive({ countEl, liveUrl, originLabel, statusEl, widget }) {
+  if (!("WebSocket" in window)) {
+    return;
+  }
+
+  const socket = new WebSocket(liveUrl);
+
+  socket.addEventListener("open", () => {
+    setStatus(statusEl, `${originLabel} · live`);
+    widget.dataset.counterState = "live";
+  });
+
+  socket.addEventListener("message", (event) => {
+    try {
+      const state = JSON.parse(String(event.data));
+      const count = Number(state.count);
+
+      if (Number.isFinite(count)) {
+        renderCount(countEl, count);
+      }
+    } catch {
+      // Ignore malformed live messages and keep the last rendered count.
+    }
+  });
+
+  socket.addEventListener("close", () => {
+    if (widget.dataset.counterState === "live") {
+      setStatus(statusEl, `${originLabel} · polling`);
+      widget.dataset.counterState = "ready";
+    }
+  });
+
+  socket.addEventListener("error", () => {
+    if (widget.dataset.counterState !== "waiting") {
+      setStatus(statusEl, `${originLabel} · polling`);
+    }
+  });
+}
+
+function renderCount(element, count) {
+  if (!element) {
+    return;
+  }
+
+  element.textContent = formatCounter(count);
+  element.setAttribute("aria-label", `${count} recorded counter visits`);
 }
 
 function resolveCounterOrigin(widget) {
@@ -96,6 +154,11 @@ function resolveCounterOrigin(widget) {
 
 function formatCounter(value) {
   return String(Math.max(0, Math.trunc(value))).padStart(6, "0");
+}
+
+function toWebSocketUrl(url) {
+  url.protocol = url.protocol === "https:" ? "wss:" : "ws:";
+  return url;
 }
 
 function shortOrigin(origin) {

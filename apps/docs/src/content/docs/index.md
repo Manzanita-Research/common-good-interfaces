@@ -23,6 +23,7 @@ template: splash
       data-counter-widget
       data-counter-path="/common-good/counter"
       data-counter-json="/common-good/counter.json"
+      data-counter-live="/common-good/counter/live"
       aria-label="Live counter binlet preview"
     >
       <div class="cgi-counter-head">
