@@ -73,9 +73,13 @@ template: splash
         <strong>Counter Binlet</strong>
         <p>The V0 proof: Durable Object state, JSONRender UI, and live updates.</p>
       </a>
-      <a class="cgi-doc-link" href="./deploy/cloudflare/">
-        <strong>Deploy to Cloudflare</strong>
-        <p>Build the docs and ship static assets with Wrangler.</p>
+      <a class="cgi-doc-link" href="./packages/core/">
+        <strong>Core Package</strong>
+        <p>Manifest types, route helpers, policy adapters, and discovery stubs.</p>
+      </a>
+      <a class="cgi-doc-link" href="./packages/jsonrender-ui/">
+        <strong>JSONRender UI</strong>
+        <p>The tiny JSON view grammar used by the counter page.</p>
       </a>
       <a class="cgi-doc-link" href="./reference/routes/">
         <strong>Route Reference</strong>

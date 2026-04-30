@@ -45,6 +45,13 @@ export default defineConfig({
           items: [{ slug: "examples/counter", label: "Counter Binlet" }],
         },
         {
+          label: "Packages",
+          items: [
+            { slug: "packages/core", label: "Core" },
+            { slug: "packages/jsonrender-ui", label: "JSONRender UI" },
+          ],
+        },
+        {
           label: "Deploy",
           items: [{ slug: "deploy/cloudflare", label: "Cloudflare" }],
         },
