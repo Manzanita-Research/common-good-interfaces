@@ -44,7 +44,7 @@ templates/hono-worker-counter  Hono + Durable Object counter starter
 The Starlight site has the fuller concept, examples, reference, and Cloudflare deployment notes:
 
 ```txt
-https://cgi-docs.manzanita.workers.dev
+https://common-good-interfaces-docs.manzanita.workers.dev
 ```
 
 For local preview, run `pnpm dev:docs` and open the URL printed by Astro.

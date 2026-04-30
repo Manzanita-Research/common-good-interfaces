@@ -10,7 +10,7 @@ This repo deploys the docs as static assets on Cloudflare Workers using Wrangler
 The current preview URL is:
 
 ```txt
-https://cgi-docs.manzanita.workers.dev
+https://common-good-interfaces-docs.manzanita.workers.dev
 ```
 
 ## Build locally
@@ -46,7 +46,7 @@ The docs app uses this Cloudflare Workers assets configuration:
 
 ```jsonc
 {
-  "name": "cgi-docs",
+  "name": "common-good-interfaces-docs",
   "compatibility_date": "2026-04-30",
   "assets": {
     "directory": "./dist",
